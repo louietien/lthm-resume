@@ -1,0 +1,40 @@
+<div class="raw-meta-row">
+  <span class="muted small">
+    Showing {{ raw.returned_rows }} of {{ raw.total_rows }} rows
+    {% if raw.source != "all" %} for {{ raw.source }}{% endif %}
+    {% if raw.day %} on {{ raw.day }}{% endif %}
+  </span>
+  {% if raw.window_start %}
+  <span class="muted small">Window start: {{ raw.window_start }}</span>
+  {% endif %}
+</div>
+
+{% if raw.source_counts %}
+<div class="raw-counts">
+  {% for label, count in raw.source_counts.items() %}
+  <span class="raw-count-chip">{{ label }}: {{ count }}</span>
+  {% endfor %}
+</div>
+{% endif %}
+
+{% if raw.rows %}
+<div class="table-wrap raw-table-wrap">
+  <table>
+    <thead>
+      <tr><th>Timestamp</th><th>Date</th><th>Source</th><th>Event</th></tr>
+    </thead>
+    <tbody>
+      {% for row in raw.rows %}
+      <tr>
+        <td>{{ row.timestamp }}</td>
+        <td>{{ row.date }}</td>
+        <td>{{ row.source }}</td>
+        <td>{{ row.event }}</td>
+      </tr>
+      {% endfor %}
+    </tbody>
+  </table>
+</div>
+{% else %}
+<p class="muted">No raw events for this filter.</p>
+{% endif %}

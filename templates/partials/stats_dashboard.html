@@ -1,0 +1,431 @@
+<div class="window-controls panel">
+  <span class="muted small">Time window</span>
+  <div class="window-buttons">
+    {% for key, option in dashboard.window_options.items() %}
+    <button
+      class="window-button{% if dashboard.window == key %} is-active{% endif %}"
+      hx-get="{{ url_for('stats_dashboard', window=key) }}"
+      hx-target="#stats-dashboard"
+      hx-swap="innerHTML"
+      type="button"
+    >
+      {{ option.label }}
+    </button>
+    {% endfor %}
+  </div>
+</div>
+
+<section class="raw-drill panel">
+  <div class="raw-drill-head">
+    <h2>Raw Data Drilldown</h2>
+    <button
+      class="window-button"
+      type="button"
+      hx-get="{{ url_for('stats_raw', window=dashboard.window, source='all', day='', limit=dashboard.raw.limit) }}"
+      hx-target="#raw-events-results"
+      hx-swap="innerHTML"
+    >
+      Reset Filter
+    </button>
+  </div>
+
+  <form
+    class="raw-filter-form"
+    hx-get="{{ url_for('stats_raw') }}"
+    hx-target="#raw-events-results"
+    hx-swap="innerHTML"
+  >
+    <input type="hidden" name="window" value="{{ dashboard.window }}">
+    <label class="small muted" for="raw-source">Source</label>
+    <select id="raw-source" name="source">
+      {% for option in dashboard.raw.source_options %}
+      <option value="{{ option.key }}"{% if option.key == dashboard.raw.source %} selected{% endif %}>{{ option.label }}</option>
+      {% endfor %}
+    </select>
+    <label class="small muted" for="raw-day">Date</label>
+    <input id="raw-day" type="date" name="day" value="{{ dashboard.raw.day }}">
+    <label class="small muted" for="raw-limit">Rows</label>
+    <input id="raw-limit" type="number" min="20" max="1000" step="10" name="limit" value="{{ dashboard.raw.limit }}">
+    <button class="window-button is-active" type="submit">Apply</button>
+  </form>
+
+  <div id="raw-events-results">
+    {% set raw = dashboard.raw %}
+    {% include "partials/stats_raw_table.html" %}
+  </div>
+</section>
+
+<section class="cards-grid cards-grid-summary">
+  {% for card in dashboard.summary_cards %}
+  <article class="metric-card panel">
+    <p class="metric-label">{{ card.label }}</p>
+    <p class="metric-value">{{ card.value }}</p>
+    <p class="metric-meta">{{ card.meta }}</p>
+  </article>
+  {% endfor %}
+</section>
+
+<section class="timeline-overview panel">
+  <h2>Latest Event Timeline</h2>
+  {% if dashboard.timeline_rows %}
+  <div class="timeline-list">
+    {% for row in dashboard.timeline_rows %}
+    <div class="timeline-item">
+      <span class="timeline-ts">{{ row.timestamp }}</span>
+      <span class="timeline-source">{{ row.source }}</span>
+      <span class="timeline-event">{{ row.event }}</span>
+    </div>
+    {% endfor %}
+  </div>
+  {% else %}
+  <p class="muted">No events in this window.</p>
+  {% endif %}
+</section>
+
+<section class="domain-section">
+  <header class="domain-header">
+    <div>
+      <h2>Commute</h2>
+      <p class="muted">Duration, weekday behavior, and timeline shape between home and work.</p>
+    </div>
+    <div class="domain-actions">
+      <button
+        class="window-button"
+        type="button"
+        hx-get="{{ url_for('stats_raw', window=dashboard.window, source='home_work', day='', limit=dashboard.raw.limit) }}"
+        hx-target="#raw-events-results"
+        hx-swap="innerHTML"
+      >
+        To-Work Raw
+      </button>
+      <button
+        class="window-button"
+        type="button"
+        hx-get="{{ url_for('stats_raw', window=dashboard.window, source='work_home', day='', limit=dashboard.raw.limit) }}"
+        hx-target="#raw-events-results"
+        hx-swap="innerHTML"
+      >
+        To-Home Raw
+      </button>
+    </div>
+  </header>
+
+  <section class="cards-grid cards-grid-domain">
+    {% for card in dashboard.commute.metrics %}
+    <article class="metric-card panel">
+      <p class="metric-label">{{ card.label }}</p>
+      <p class="metric-value">{{ card.value }}</p>
+      <p class="metric-meta">{{ card.meta }}</p>
+    </article>
+    {% endfor %}
+  </section>
+
+  <article class="panel chart-panel chart-main">{{ dashboard.commute.plot_main | safe }}</article>
+  <section class="mini-chart-grid">
+    <article class="panel chart-panel chart-mini">{{ dashboard.commute.plot_weekday | safe }}</article>
+    <article class="panel chart-panel chart-mini">{{ dashboard.commute.plot_timeline | safe }}</article>
+  </section>
+
+  <section class="details-grid">
+    <article class="panel detail-panel">
+      <h3>Highlights</h3>
+      <ul class="insight-list">
+        {% for insight in dashboard.commute.insights %}
+        <li>{{ insight }}</li>
+        {% endfor %}
+      </ul>
+    </article>
+    <article class="panel detail-panel">
+      <h3>Recent commute days</h3>
+      {% if dashboard.commute.rows %}
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Date</th><th>To work</th><th>To home</th></tr>
+          </thead>
+          <tbody>
+            {% for row in dashboard.commute.rows %}
+            <tr>
+              <td>
+                <button
+                  class="table-link-button"
+                  type="button"
+                  hx-get="{{ url_for('stats_raw', window=dashboard.window, source='all', day=row.date, limit=dashboard.raw.limit) }}"
+                  hx-target="#raw-events-results"
+                  hx-swap="innerHTML"
+                >
+                  {{ row.date }}
+                </button>
+              </td>
+              <td>{{ row.to_work }}</td>
+              <td>{{ row.to_home }}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      {% else %}
+      <p class="muted">No paired commute entries in this window.</p>
+      {% endif %}
+    </article>
+  </section>
+
+  <article class="panel detail-panel weekday-panel">
+    <h3>Weekday Sort (Mon -> Sun)</h3>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>Weekday</th><th>To work</th><th>To home</th><th>Mornings</th><th>Evenings</th></tr>
+        </thead>
+        <tbody>
+          {% for row in dashboard.commute.weekday_rows %}
+          <tr><td>{{ row.weekday }}</td><td>{{ row.to_work }}</td><td>{{ row.to_home }}</td><td>{{ row.mornings }}</td><td>{{ row.evenings }}</td></tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </article>
+</section>
+
+<section class="domain-section">
+  <header class="domain-header">
+    <div>
+      <h2>Work Hours</h2>
+      <p class="muted">Hours at work, out-of-home footprint, plus weekday and timeline comparisons.</p>
+    </div>
+    <div class="domain-actions">
+      <button
+        class="window-button"
+        type="button"
+        hx-get="{{ url_for('stats_raw', window=dashboard.window, source='work', day='', limit=dashboard.raw.limit) }}"
+        hx-target="#raw-events-results"
+        hx-swap="innerHTML"
+      >
+        Work Raw
+      </button>
+    </div>
+  </header>
+
+  <section class="cards-grid cards-grid-domain">
+    {% for card in dashboard.work.metrics %}
+    <article class="metric-card panel">
+      <p class="metric-label">{{ card.label }}</p>
+      <p class="metric-value">{{ card.value }}</p>
+      <p class="metric-meta">{{ card.meta }}</p>
+    </article>
+    {% endfor %}
+  </section>
+
+  {% set contract = dashboard.work.contract_progress %}
+  <article class="panel contract-panel">
+    <div class="contract-head">
+      <h3>Contract Progress</h3>
+      <p class="muted">{{ contract.month_label }} · as of {{ contract.as_of }}</p>
+    </div>
+    <p class="contract-meta">
+      Target: {{ "%.2f"|format(contract.target_hours) }}h/month ({{ "%.1f"|format(contract.daily_target_hours) }}h/workday)
+    </p>
+
+    <div class="progress-item">
+      <div class="progress-label-row">
+        <span>Month completion</span>
+        <strong>{{ "%.0f"|format(contract.completion_pct) }}%</strong>
+      </div>
+      <div class="progress-track">
+        <div class="progress-fill progress-fill-completion" style="width: {{ "%.2f"|format(contract.completion_pct_clamped) }}%;"></div>
+      </div>
+      <p class="progress-meta">{{ "%.1f"|format(contract.actual_hours) }}h logged · {{ "%.1f"|format(contract.remaining_hours) }}h remaining</p>
+    </div>
+
+    <div class="progress-item">
+      <div class="progress-label-row">
+        <span>Pace vs expected-to-date</span>
+        <strong>{{ "%.0f"|format(contract.pace_pct) }}%</strong>
+      </div>
+      <div class="progress-track">
+        <div class="progress-fill {% if contract.on_track %}progress-fill-ontrack{% else %}progress-fill-behind{% endif %}" style="width: {{ "%.2f"|format(contract.pace_pct_clamped) }}%;"></div>
+      </div>
+      <p class="progress-meta">
+        Expected by now: {{ "%.1f"|format(contract.expected_to_date_hours) }}h · need {{ "%.2f"|format(contract.needed_per_day_hours) }}h/day for {{ contract.remaining_business_days }} remaining workdays
+      </p>
+    </div>
+
+    {% if dashboard.work.contract_history_rows %}
+    <div class="contract-history">
+      <h4>Recent Monthly Completion</h4>
+      <div class="history-bars">
+        {% for row in dashboard.work.contract_history_rows %}
+        <div class="history-row">
+          <span class="history-month">{{ row.month }}</span>
+          <div class="history-track">
+            <div class="history-fill history-fill-{{ row.status }}" style="width: {{ "%.2f"|format(row.pct_clamped) }}%;"></div>
+          </div>
+          <span class="history-value">{{ "%.1f"|format(row.actual_hours) }}h</span>
+        </div>
+        {% endfor %}
+      </div>
+    </div>
+    {% endif %}
+  </article>
+
+  <article class="panel chart-panel chart-main">{{ dashboard.work.plot_main | safe }}</article>
+  <section class="mini-chart-grid">
+    <article class="panel chart-panel chart-mini">{{ dashboard.work.plot_weekday | safe }}</article>
+    <article class="panel chart-panel chart-mini">{{ dashboard.work.plot_timeline | safe }}</article>
+  </section>
+
+  <section class="details-grid">
+    <article class="panel detail-panel">
+      <h3>Highlights</h3>
+      <ul class="insight-list">
+        {% for insight in dashboard.work.insights %}
+        <li>{{ insight }}</li>
+        {% endfor %}
+      </ul>
+    </article>
+    <article class="panel detail-panel">
+      <h3>Recent work days</h3>
+      {% if dashboard.work.rows %}
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Date</th><th>At work</th><th>Out of home</th></tr>
+          </thead>
+          <tbody>
+            {% for row in dashboard.work.rows %}
+            <tr>
+              <td>
+                <button
+                  class="table-link-button"
+                  type="button"
+                  hx-get="{{ url_for('stats_raw', window=dashboard.window, source='all', day=row.date, limit=dashboard.raw.limit) }}"
+                  hx-target="#raw-events-results"
+                  hx-swap="innerHTML"
+                >
+                  {{ row.date }}
+                </button>
+              </td>
+              <td>{{ row.workday }}</td>
+              <td>{{ row.out_of_home }}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      {% else %}
+      <p class="muted">No paired work-hour entries in this window.</p>
+      {% endif %}
+    </article>
+  </section>
+
+  <article class="panel detail-panel weekday-panel">
+    <h3>Weekday Sort (Mon -> Sun)</h3>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>Weekday</th><th>At work</th><th>Out of home</th><th>Tracked days</th></tr>
+        </thead>
+        <tbody>
+          {% for row in dashboard.work.weekday_rows %}
+          <tr><td>{{ row.weekday }}</td><td>{{ row.workday }}</td><td>{{ row.out_of_home }}</td><td>{{ row.days }}</td></tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </article>
+</section>
+
+<section class="domain-section">
+  <header class="domain-header">
+    <div>
+      <h2>Sleep Times</h2>
+      <p class="muted">Bedtime proxy trend, weekday behavior, and distribution spread.</p>
+    </div>
+    <div class="domain-actions">
+      <button
+        class="window-button"
+        type="button"
+        hx-get="{{ url_for('stats_raw', window=dashboard.window, source='sleep', day='', limit=dashboard.raw.limit) }}"
+        hx-target="#raw-events-results"
+        hx-swap="innerHTML"
+      >
+        Sleep Raw
+      </button>
+    </div>
+  </header>
+
+  <section class="cards-grid cards-grid-domain">
+    {% for card in dashboard.sleep.metrics %}
+    <article class="metric-card panel">
+      <p class="metric-label">{{ card.label }}</p>
+      <p class="metric-value">{{ card.value }}</p>
+      <p class="metric-meta">{{ card.meta }}</p>
+    </article>
+    {% endfor %}
+  </section>
+
+  <article class="panel chart-panel chart-main">{{ dashboard.sleep.plot_main | safe }}</article>
+  <section class="mini-chart-grid">
+    <article class="panel chart-panel chart-mini">{{ dashboard.sleep.plot_weekday | safe }}</article>
+    <article class="panel chart-panel chart-mini">{{ dashboard.sleep.plot_distribution | safe }}</article>
+  </section>
+
+  <section class="details-grid">
+    <article class="panel detail-panel">
+      <h3>Highlights</h3>
+      <ul class="insight-list">
+        {% for insight in dashboard.sleep.insights %}
+        <li>{{ insight }}</li>
+        {% endfor %}
+      </ul>
+    </article>
+    <article class="panel detail-panel">
+      <h3>Recent nights</h3>
+      {% if dashboard.sleep.rows %}
+      <div class="table-wrap">
+        <table>
+          <thead>
+            <tr><th>Date</th><th>Bedtime proxy</th></tr>
+          </thead>
+          <tbody>
+            {% for row in dashboard.sleep.rows %}
+            <tr>
+              <td>
+                <button
+                  class="table-link-button"
+                  type="button"
+                  hx-get="{{ url_for('stats_raw', window=dashboard.window, source='all', day=row.date, limit=dashboard.raw.limit) }}"
+                  hx-target="#raw-events-results"
+                  hx-swap="innerHTML"
+                >
+                  {{ row.date }}
+                </button>
+              </td>
+              <td>{{ row.bedtime }}</td>
+            </tr>
+            {% endfor %}
+          </tbody>
+        </table>
+      </div>
+      {% else %}
+      <p class="muted">No sleep proxy entries in this window.</p>
+      {% endif %}
+    </article>
+  </section>
+
+  <article class="panel detail-panel weekday-panel">
+    <h3>Weekday Sort (Mon -> Sun)</h3>
+    <div class="table-wrap">
+      <table>
+        <thead>
+          <tr><th>Weekday</th><th>Average bedtime</th><th>Nights tracked</th></tr>
+        </thead>
+        <tbody>
+          {% for row in dashboard.sleep.weekday_rows %}
+          <tr><td>{{ row.weekday }}</td><td>{{ row.bedtime }}</td><td>{{ row.nights }}</td></tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </article>
+</section>

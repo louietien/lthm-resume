@@ -1,0 +1,84 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>Stats Import</title>
+  <script>
+    (function () {
+      var saved = localStorage.getItem("theme");
+      if (saved === "dark" || saved === "light") {
+        document.documentElement.setAttribute("data-theme", saved);
+      }
+    })();
+  </script>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Manrope:wght@400;600;700&family=Space+Grotesk:wght@500;700&display=swap" rel="stylesheet">
+  <link rel="icon" type="image/svg+xml" href="{{ url_for('static', filename='favicon.svg') }}">
+  <link rel="stylesheet" href="{{ url_for('static', filename='stats.css') }}">
+  <script defer src="{{ url_for('static', filename='stats-theme.js') }}"></script>
+</head>
+<body class="stats-body">
+  <div class="stats-glow glow-a"></div>
+  <div class="stats-glow glow-b"></div>
+
+  <main class="stats-wrap import-wrap">
+    <header class="stats-header panel">
+      <div>
+        <p class="badge">Private dashboard</p>
+        <h1>Plaintext Import</h1>
+        <p class="muted">Paste complete exports and import into the selected log file.</p>
+      </div>
+      <div class="session-actions">
+        <button
+          id="theme-toggle"
+          type="button"
+          class="ghost-link"
+          data-dark-label="Dark mode"
+          data-light-label="Light mode"
+        >
+          Dark mode
+        </button>
+        <a class="ghost-link" href="{{ url_for('stats_page') }}">Back to Dashboard</a>
+        <a class="ghost-link" href="{{ url_for('home') }}">Back to Portfolio</a>
+        <form method="post" action="{{ url_for('stats_logout') }}">
+          <button type="submit" class="lock-button">Lock</button>
+        </form>
+      </div>
+    </header>
+
+    <section class="import-controls panel import-controls-page">
+      <div class="import-head">
+        <h2>Import Payload</h2>
+        <p class="muted small">Re-importing full files is fine. Existing entries are kept and deduped.</p>
+      </div>
+      {% if import_feedback %}
+      <p class="import-feedback import-feedback-{{ import_feedback.level }}">
+        {{ import_feedback.text }}
+      </p>
+      {% endif %}
+
+      <form class="import-form" method="post" action="{{ url_for('stats_import_plaintext') }}">
+        <label for="import-source" class="small muted">Import target</label>
+        <select id="import-source" name="source" required>
+          {% for option in import_options %}
+          <option value="{{ option.key }}"{% if import_selected_source == option.key %} selected{% endif %}>
+            {{ option.label }}
+          </option>
+          {% endfor %}
+        </select>
+
+        <textarea
+          name="payload"
+          rows="16"
+          placeholder="Paste complete plaintext file contents here"
+          required
+        ></textarea>
+        <button class="window-button is-active import-submit" type="submit">Import Text</button>
+      </form>
+      <p class="muted small">Expected format per line: <code>Event text at DD/MM/YYYY, HH.MM</code>.</p>
+    </section>
+  </main>
+</body>
+</html>
