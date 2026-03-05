@@ -141,4 +141,4 @@ If GitHub Actions shows `Failed to deploy web package ... Conflict (CODE: 409)`:
 2. Restart the App Service once, then rerun the workflow.
 3. Ensure no concurrent workflow runs are active for the same branch.
 
-This repo workflow already includes concurrency protection, pre-deploy restart, and a retry attempt.
+This repo workflow includes concurrency protection and an automatic retry path with restart only when attempt 1 fails.
