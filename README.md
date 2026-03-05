@@ -132,3 +132,13 @@ Behavior notes on Azure:
 - If `STATS_DIR` is not set, the app auto-uses `/home/site/data/stats` when running on App Service.
 - On first startup in Azure, it seeds that directory from the repo `stats/` files if it is empty.
 - This avoids write failures when the deployed app package is mounted read-only.
+
+### Deployment troubleshooting (`409 Conflict` from OneDeploy)
+
+If GitHub Actions shows `Failed to deploy web package ... Conflict (CODE: 409)`:
+
+1. Check that only one deployment source is active (GitHub Actions), not a second Deployment Center source.
+2. Restart the App Service once, then rerun the workflow.
+3. Ensure no concurrent workflow runs are active for the same branch.
+
+This repo workflow already includes concurrency protection, pre-deploy restart, and a retry attempt.

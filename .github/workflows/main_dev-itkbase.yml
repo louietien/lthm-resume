@@ -8,6 +8,9 @@ concurrency:
   group: azure-webapp-dev-itkbase-${{ github.ref }}
   cancel-in-progress: true
 
+env:
+  AZURE_WEBAPP_NAME: dev-itkbase
+
 on:
   push:
     branches:
@@ -78,10 +81,51 @@ jobs:
           subscription-id: ${{ secrets.AZUREAPPSERVICE_SUBSCRIPTIONID_4CD1DF927A1344B1BE1DED0FC01346BE }}
 
       - name: 'Deploy to Azure Web App'
-        uses: azure/webapps-deploy@v3
-        id: deploy-to-webapp
+        id: resolve-rg
+        uses: azure/cli@v2
         with:
-          app-name: 'dev-itkbase'
+          inlineScript: |
+            RESOURCE_GROUP=$(az webapp list --query "[?name=='${{ env.AZURE_WEBAPP_NAME }}'].resourceGroup | [0]" -o tsv)
+            if [ -z "$RESOURCE_GROUP" ]; then
+              echo "Could not resolve resource group for app '${{ env.AZURE_WEBAPP_NAME }}'."
+              exit 1
+            fi
+            echo "resource_group=$RESOURCE_GROUP" >> "$GITHUB_OUTPUT"
+
+      - name: Restart web app before deploy (clears stale OneDeploy lock)
+        uses: azure/cli@v2
+        with:
+          inlineScript: |
+            az webapp restart --name "${{ env.AZURE_WEBAPP_NAME }}" --resource-group "${{ steps.resolve-rg.outputs.resource_group }}"
+            sleep 35
+
+      - name: Deploy to Azure Web App (attempt 1)
+        id: deploy-attempt-1
+        continue-on-error: true
+        uses: azure/webapps-deploy@v3
+        with:
+          app-name: ${{ env.AZURE_WEBAPP_NAME }}
+          slot-name: 'Production'
+          package: .
+
+      - name: Wait before deploy retry
+        if: steps.deploy-attempt-1.outcome == 'failure'
+        run: sleep 60
+
+      - name: Restart web app before deploy retry
+        if: steps.deploy-attempt-1.outcome == 'failure'
+        uses: azure/cli@v2
+        with:
+          inlineScript: |
+            az webapp restart --name "${{ env.AZURE_WEBAPP_NAME }}" --resource-group "${{ steps.resolve-rg.outputs.resource_group }}"
+            sleep 35
+
+      - name: Deploy to Azure Web App (attempt 2)
+        if: steps.deploy-attempt-1.outcome == 'failure'
+        id: deploy-attempt-2
+        uses: azure/webapps-deploy@v3
+        with:
+          app-name: ${{ env.AZURE_WEBAPP_NAME }}
           slot-name: 'Production'
           package: .
           
