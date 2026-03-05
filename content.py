@@ -15,14 +15,15 @@ SITE_DATA = {
         "nameplate": "Louie Hegeler-Meile",
         "intro": "I'm",
         "roles": [
-            "senior IT ops specialist",
+            "senior IT Ops Specialist",
             "sysadmin",
-            "IT operations specialist",
             "M365 + Azure admin",
             "hands-on troubleshooter",
             "PC builder",
             "music nerd",
+            "friendly-neighborhood IT-guy",
             "curious problem solver",
+            "bit of a cinephile...",
         ],
         "subtitle": (
             "I make sure IT at 21-5 works the way it should. I handle device setup, "
@@ -88,9 +89,10 @@ SITE_DATA = {
                 "title": "Senior IT Operations Specialist",
                 "meta": "21-5 | Apr 2025 - Present | Hørsholm, Denmark",
                 "description": (
-                    "Own daily IT operations, platform reliability, endpoint lifecycle "
-                    "management, and continuous improvement across internal business "
-                    "systems."
+                    "Oversee day-to-day IT operations, IT logistics, platform reliability, "
+                    "endpoint lifecycle management, and equipment procurement. I spot weak "
+                    "or outdated workflows and drive continuous improvement with better, "
+                    "more practical solutions."
                 ),
             },
             {
@@ -136,7 +138,7 @@ SITE_DATA = {
                     "src": "logos/vinstue-90.jpg",
                     "alt": "Vinstue 90 logo",
                 },
-                "title": "Employee Representative / Bartender / Dishwasher",
+                "title": "HR Business Partner",
                 "meta": "Vinstue 90 | Aug 2015 - Present (multiple roles)",
                 "description": (
                     "Managed payroll and tax reporting, coordinated shifts, and supported "
@@ -205,7 +207,8 @@ SITE_DATA = {
                 "title": "How I Work",
                 "description": (
                     "Curious, practical, and a bit perfectionist. I like digging into "
-                    "details and fixing root causes, not just symptoms."
+                    "details and fixing root causes, especially when a process is clunky "
+                    "and can be done better."
                 ),
             },
             {
