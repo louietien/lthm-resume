@@ -11,24 +11,23 @@ SITE_DATA = {
         {"href": "#contact", "label": "Contact"},
     ],
     "hero": {
-        "eyebrow": "Resume / Portfolio",
+        "eyebrow": "Tech, Music, and IT Ops",
         "nameplate": "Louie Hegeler-Meile",
-        "intro": "I am",
+        "intro": "I'm",
         "roles": [
-            "IT specialist",
-            "2nd-line advisor",
-            "customer support pro",
-            "Apple troubleshooter",
-            "M365 admin",
-            "problem solver",
-            "peer coach",
-            "developer",
-            "mucisian",
+            "senior IT ops specialist",
+            "sysadmin",
+            "IT operations specialist",
+            "M365 + Azure admin",
+            "hands-on troubleshooter",
+            "PC builder",
+            "music nerd",
+            "curious problem solver",
         ],
         "subtitle": (
-            "Senior IT Operations Specialist with a customer-first technical background, "
-            "spanning IT operations, second-line support, and hands-on device and "
-            "platform troubleshooting."
+            "I make sure IT at 21-5 works the way it should. I handle device setup, "
+            "Microsoft 365 and Azure admin, and jump on weird issues before they become "
+            "big headaches."
         ),
         "actions": [
             {
@@ -46,31 +45,38 @@ SITE_DATA = {
         ],
         "location": "Copenhagen, Capital Region of Denmark, Denmark",
         "stats": [
-            "500+ connections",
-            "723 followers",
-            "IT Operations",
+            "Danish + English",
+            "Driving License (B)",
+            "IT Operations @ 21-5",
             "PC Builder",
         ],
         "wins": [
-            {"value": "10+ years", "label": "customer-facing experience"},
-            {"value": "2nd-line", "label": "Apple ecosystem support"},
-            {"value": "Cross-team", "label": "operations + coaching mindset"},
+            {"value": "Day Job", "label": "keeping internal IT smooth at 21-5"},
+            {"value": "Background", "label": "strong 2nd-line Apple troubleshooting"},
+            {"value": "Off Hours", "label": "music, gaming, travel, and PC builds"},
         ],
     },
     "about": {
         "title": "About",
         "paragraphs": [
             (
-                "I am an energetic and outgoing IT professional with customer service "
-                "experience since my early teens. At Webhelp, I delivered second-line "
-                "support for iOS and macOS users, handled escalations, and coordinated "
-                "with authorized global repair partners. I bring a practical mindset, "
-                "strong communication, and a focus on resolving issues end-to-end."
+                "Hey, I'm Louie. I'm an energetic, outgoing IT person who likes new "
+                "challenges and meeting good people."
             ),
             (
-                "Outside of work, I enjoy building and fixing PCs and spending downtime "
-                "gaming. Those interests keep me curious, hands-on, and constantly "
-                "learning new tools and systems."
+                "I currently work as a Senior IT Operations Specialist at 21-5, where I "
+                "handle setup and maintenance of different devices, internal tooling, and "
+                "daily platform reliability across the business."
+            ),
+            (
+                "Before that, I worked as a Senior Technical Advisor doing 2nd-line "
+                "support for iOS and macOS users. That gave me solid experience in "
+                "diagnostics, escalation handling, and staying calm when things go wrong."
+            ),
+            (
+                "Outside work, I'm into music, gaming, travel, and building PCs. I used "
+                "to volunteer in r/techsupport, helping people troubleshoot real problems "
+                "remotely."
             ),
         ],
     },
@@ -82,8 +88,9 @@ SITE_DATA = {
                 "title": "Senior IT Operations Specialist",
                 "meta": "21-5 | Apr 2025 - Present | Hørsholm, Denmark",
                 "description": (
-                    "Responsible for daily IT operations, internal platform reliability, "
-                    "and support delivery across devices and business systems."
+                    "Own daily IT operations, platform reliability, endpoint lifecycle "
+                    "management, and continuous improvement across internal business "
+                    "systems."
                 ),
             },
             {
@@ -91,8 +98,9 @@ SITE_DATA = {
                 "title": "IT Operations Specialist",
                 "meta": "21-5 | Sep 2021 - Apr 2025",
                 "description": (
-                    "Worked with Microsoft Exchange, Azure DevOps, and broader operational "
-                    "support across modern workplace tooling."
+                    "Managed Microsoft Exchange and Microsoft 365 administration, Azure "
+                    "DevOps workflows, and operational service delivery across modern "
+                    "workplace tooling."
                 ),
             },
             {
@@ -104,9 +112,9 @@ SITE_DATA = {
                 "title": "Senior Technical Advisor",
                 "meta": "Webhelp | Aug 2020 - Aug 2021 | Copenhagen",
                 "description": (
-                    "Delivered second-line support, handled high-priority escalations, "
-                    "and supported repair coordination with authorized service providers "
-                    "worldwide."
+                    "Led second-line technical incident handling, managed high-priority "
+                    "escalations, and coordinated complex repair workflows with "
+                    "authorized service providers worldwide."
                 ),
             },
             {
@@ -118,8 +126,8 @@ SITE_DATA = {
                 "title": "Technical Advisor",
                 "meta": "Webhelp | Jan 2020 - Jul 2020",
                 "description": (
-                    "Supported customers in software and hardware troubleshooting with "
-                    "focus on Apple ecosystems."
+                    "Provided technical troubleshooting across Apple platforms, building "
+                    "a strong foundation in diagnostics and structured escalation."
                 ),
             },
             {
@@ -149,19 +157,23 @@ SITE_DATA = {
         "title": "Skills",
         "items": [
             "IT Operations",
-            "Second-Line Support",
-            "Azure Administration",
-            "Microsoft 365",
+            "Systems Administration",
+            "Microsoft 365 Administration",
             "Microsoft Exchange",
+            "Azure Administration",
             "Azure DevOps",
+            "Troubleshooting (Hardware + Software)",
+            "Automation & Scripting",
             "iOS",
             "macOS",
             "tvOS",
             "watchOS",
             "Microsoft Office",
             "Adobe Suite",
-            "Customer Service",
-            "Escalation Handling",
+            "PC Building",
+            "Danish (Native)",
+            "English (Fluent)",
+            "Driving License (B)",
             "Payroll & Tax Reporting",
             "Recruiting & Coaching",
         ],
@@ -180,42 +192,42 @@ SITE_DATA = {
         ],
     },
     "snapshot": {
-        "title": "Profile Snapshot",
+        "title": "More About Me",
         "items": [
             {
-                "title": "Current Focus",
+                "title": "What I Do",
                 "description": (
-                    "Building reliable internal IT operations and support processes at 21-5."
+                    "I keep internal IT stable and usable so people can do their work "
+                    "without fighting their tools."
                 ),
             },
             {
-                "title": "Support Depth",
+                "title": "How I Work",
                 "description": (
-                    "Second-line advisory background with strong Apple platform "
-                    "troubleshooting experience."
+                    "Curious, practical, and a bit perfectionist. I like digging into "
+                    "details and fixing root causes, not just symptoms."
                 ),
             },
             {
-                "title": "Languages",
+                "title": "Outside Work",
                 "description": (
-                    "Danish (native) and English (fluent), enabling clear support across "
-                    "local and international teams."
+                    "Music, gaming, travel, and PC building take up most of my free time."
                 ),
             },
             {
-                "title": "Personal Side",
+                "title": "Community",
                 "description": (
-                    "Passionate about PC building, troubleshooting hardware, and gaming. "
-                    "I like solving practical problems on and off the clock."
+                    "I used to volunteer in r/techsupport and enjoyed helping people "
+                    "solve technical issues from scratch."
                 ),
             },
         ],
     },
     "contact": {
-        "title": "Let's Connect",
+        "title": "Say Hi",
         "description": (
-            "I'm open to new opportunities where operations, support quality, and "
-            "practical problem-solving matter."
+            "If you need someone practical who can keep IT running and is easy to work "
+            "with, feel free to reach out."
         ),
         "actions": [
             {
