@@ -127,6 +127,59 @@ body {
   z-index: 1;
 }
 
+.top-right-controls {
+  position: fixed;
+  top: 1rem;
+  right: 1rem;
+  z-index: 4;
+  display: flex;
+  align-items: center;
+  gap: 0.65rem;
+}
+
+.session-dock {
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+  padding: 0.4rem;
+  border-radius: 999px;
+}
+
+.session-dock form {
+  margin: 0;
+}
+
+.session-link,
+.session-button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-height: 36px;
+  padding: 0.45rem 0.85rem;
+  border-radius: 999px;
+  border: 1px solid var(--line);
+  background: transparent;
+  color: var(--ink);
+  font: inherit;
+  font-size: 0.86rem;
+  text-decoration: none;
+  cursor: pointer;
+  transition: transform 180ms ease, border-color 180ms ease, background-color 180ms ease;
+}
+
+.session-link:hover,
+.session-button:hover {
+  transform: translateY(-1px);
+  border-color: color-mix(in oklab, var(--accent) 45%, var(--line));
+  background: color-mix(in oklab, var(--accent) 10%, transparent);
+}
+
+.session-link:focus-visible,
+.session-button:focus-visible {
+  outline: none;
+  box-shadow: 0 0 0 4px var(--focus-ring);
+}
+
 .quick-nav {
   position: sticky;
   top: 0.75rem;
@@ -520,10 +573,6 @@ h2::after {
 }
 
 .theme-toggle {
-  position: fixed;
-  top: 1rem;
-  right: 1rem;
-  z-index: 4;
   border: 1px solid var(--line);
   background: var(--card);
   color: var(--ink);
@@ -594,4 +643,17 @@ h2::after {
   }
   .quick-nav::-webkit-scrollbar { height: 6px; }
   .wins { grid-template-columns: 1fr; }
+  .top-right-controls {
+    left: 1rem;
+    right: 1rem;
+    justify-content: space-between;
+    gap: 0.5rem;
+  }
+  .session-dock {
+    min-width: 0;
+  }
+  .session-link,
+  .session-button {
+    padding-inline: 0.7rem;
+  }
 }

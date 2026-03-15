@@ -830,6 +830,33 @@ th {
   z-index: 1;
 }
 
+.nav-wrap {
+  width: min(860px, 92vw);
+}
+
+.nav-grid {
+  margin-top: 1rem;
+  display: grid;
+  grid-template-columns: repeat(2, minmax(0, 1fr));
+  gap: 0.9rem;
+}
+
+.nav-card {
+  display: block;
+  padding: 1rem;
+  text-decoration: none;
+  color: inherit;
+}
+
+.nav-card h2 {
+  margin: 0.2rem 0 0.35rem;
+  font-size: 1.1rem;
+}
+
+.nav-card-disabled {
+  opacity: 0.76;
+}
+
 .login-form {
   margin: 1rem 0;
   display: grid;
@@ -939,6 +966,10 @@ code {
   .timeline-item {
     grid-template-columns: 1fr;
     gap: 0.26rem;
+  }
+
+  .nav-grid {
+    grid-template-columns: 1fr;
   }
 }
 

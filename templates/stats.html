@@ -43,6 +43,7 @@
         >
           Dark mode
         </button>
+        <a class="ghost-link" href="{{ url_for('private_nav') }}">Private Nav</a>
         <a class="ghost-link" href="{{ url_for('stats_import_page') }}">Import Data</a>
         <a class="ghost-link" href="{{ url_for('home') }}">Back to Portfolio</a>
         <form method="post" action="{{ url_for('stats_logout') }}">
