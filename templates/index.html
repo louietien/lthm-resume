@@ -5,6 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1">
   <title>{{ site.page_title }}</title>
   <link rel="icon" type="image/svg+xml" href="{{ url_for('static', filename='favicon.svg') }}">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=DM+Sans:wght@400;500;600;700&display=swap" rel="stylesheet">
   <link rel="stylesheet" href="{{ url_for('static', filename='styles.css') }}">
   <script>
     (function () {
@@ -16,20 +19,18 @@
   </script>
 </head>
 <body>
-  <div class="bg-orb orb-a"></div>
-  <div class="bg-orb orb-b"></div>
   <div class="top-right-controls">
     <button id="theme-toggle" class="theme-toggle" type="button" aria-label="Toggle dark mode">{{ site.theme.dark_label }}</button>
   </div>
 
   <main class="wrap">
-    <nav class="quick-nav card" aria-label="Section navigation">
+    <nav class="quick-nav" aria-label="Section navigation">
       {% for link in site.quick_nav %}
       <a href="{{ link.href }}">{{ link.label }}</a>
       {% endfor %}
     </nav>
 
-    <header class="hero card">
+    <header class="hero">
       <div class="hero-grid">
         <div>
           <p class="eyebrow">{{ site.hero.eyebrow }}</p>
@@ -59,18 +60,18 @@
       </div>
     </header>
 
-    <section class="grid">
-      <article class="card" id="about">
-        <h2>{{ site.about.title }}</h2>
+    <section class="section" id="about">
+      <h2 class="section-label">{{ site.about.title }}</h2>
+      <div class="about-body">
         {% for paragraph in site.about.paragraphs %}
-        <div class="item">
-          <p>{{ paragraph }}</p>
-        </div>
+        <p>{{ paragraph }}</p>
         {% endfor %}
-      </article>
+      </div>
+    </section>
 
-      <article class="card" id="experience">
-        <h2>{{ site.experience.title }}</h2>
+    <section class="section" id="experience">
+      <h2 class="section-label">{{ site.experience.title }}</h2>
+      <div class="exp-list">
         {% for item in site.experience["items"] %}
         <div class="item timeline-item">
           <div class="exp-row">
@@ -85,16 +86,18 @@
           <p>{{ item.description }}</p>
         </div>
         {% endfor %}
-      </article>
+      </div>
+    </section>
 
-      <article class="card" id="skills">
-        <h2>{{ site.skills.title }}</h2>
-        <ul class="tags">
-          {% for skill in site.skills["items"] %}
-          <li>{{ skill }}</li>
-          {% endfor %}
-        </ul>
-        <h2 class="top-gap">{{ site.skills.education_title }}</h2>
+    <section class="section" id="skills">
+      <h2 class="section-label">{{ site.skills.title }}</h2>
+      <ul class="tags">
+        {% for skill in site.skills["items"] %}
+        <li>{{ skill }}</li>
+        {% endfor %}
+      </ul>
+      <h2 class="section-label top-gap">{{ site.skills.education_title }}</h2>
+      <div class="edu-list">
         {% for school in site.skills.education %}
         <div class="item">
           <h3>{{ school.school }}</h3>
@@ -106,29 +109,29 @@
           {% endif %}
         </div>
         {% endfor %}
-      </article>
+      </div>
+    </section>
 
-      <article class="card span-2">
-        <h2>{{ site.snapshot.title }}</h2>
-        <div class="projects">
-          {% for item in site.snapshot["items"] %}
-          <div class="project">
-            <h3>{{ item.title }}</h3>
-            <p>{{ item.description }}</p>
-          </div>
-          {% endfor %}
+    <section class="section" id="snapshot">
+      <h2 class="section-label">{{ site.snapshot.title }}</h2>
+      <div class="projects">
+        {% for item in site.snapshot["items"] %}
+        <div class="project">
+          <h3>{{ item.title }}</h3>
+          <p>{{ item.description }}</p>
         </div>
-      </article>
+        {% endfor %}
+      </div>
+    </section>
 
-      <article class="card span-2 cta" id="contact">
-        <h2>{{ site.contact.title }}</h2>
-        <p>{{ site.contact.description }}</p>
-        <div class="hero-actions">
-          {% for action in site.contact.actions %}
-          <a class="btn{% if action.ghost %} btn-ghost{% endif %}" href="{{ action.href }}"{% if action.external %} target="_blank" rel="noreferrer"{% endif %}>{{ action.label }}</a>
-          {% endfor %}
-        </div>
-      </article>
+    <section class="section cta" id="contact">
+      <h2 class="section-label">{{ site.contact.title }}</h2>
+      <p class="cta-desc">{{ site.contact.description }}</p>
+      <div class="hero-actions">
+        {% for action in site.contact.actions %}
+        <a class="btn{% if action.ghost %} btn-ghost{% endif %}" href="{{ action.href }}"{% if action.external %} target="_blank" rel="noreferrer"{% endif %}>{{ action.label }}</a>
+        {% endfor %}
+      </div>
     </section>
   </main>
   <script>
