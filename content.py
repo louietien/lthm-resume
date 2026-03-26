@@ -175,7 +175,7 @@ SITE_DATA = {
             },
         ],
         "contact_popup": {
-            "email": "contact@louietien.com",
+            "email": "lt@lthm.dk",
             "phone": "+4521302242",
         },
         "location": "Copenhagen, Capital Region of Denmark, Denmark",
@@ -195,23 +195,24 @@ SITE_DATA = {
         "title": "About",
         "paragraphs": [
             (
-                "Hey, I'm Louie. I'm an energetic, outgoing IT person who likes new "
-                "challenges and meeting good people."
+                "Hey, I'm Louie. I'm an IT professional with a habit of fixing what's "
+                "broken and building what doesn't exist yet."
             ),
             (
-                "I currently work as a Senior IT Operations Specialist at 21-5, where I "
-                "handle setup and maintenance of different devices, internal tooling, and "
-                "daily platform reliability across the business."
+                "In my current role, I manage and extend internal platforms, automate "
+                "repetitive workflows, and build tooling from scratch when off-the-shelf "
+                "options don't cut it. I spot broken processes and fix them — whether "
+                "that means a configuration change or writing something new."
             ),
             (
-                "Before that, I worked as a Senior Technical Advisor doing 2nd-line "
-                "support for iOS and macOS users. That gave me solid experience in "
-                "diagnostics, escalation handling, and staying calm when things go wrong."
+                "Before that, I did 2nd-line technical support for Apple, handling "
+                "escalations from clients and service providers worldwide. That gave me "
+                "the client-facing composure and structured thinking that purely technical "
+                "roles don't always develop."
             ),
             (
-                "Outside work, I'm into music, gaming, travel, and building PCs. I used "
-                "to volunteer in r/techsupport, helping people troubleshoot real problems "
-                "remotely."
+                "Outside work, I build PCs, write code for fun, and used to volunteer "
+                "in r/techsupport — helping strangers debug real problems remotely."
             ),
         ],
     },
