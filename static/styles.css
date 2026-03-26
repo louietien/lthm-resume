@@ -353,9 +353,12 @@ h3 { margin: 0; font-size: 0.96rem; font-weight: 600; }
 /* ——— ABOUT ——————————————————————————————————————*/
 
 .about-body {
-  display: grid;
-  grid-template-columns: repeat(2, minmax(0, 1fr));
-  gap: 0 2.5rem;
+  display: flex;
+  gap: 2.5rem;
+}
+
+.about-col {
+  flex: 1;
 }
 
 .about-body p {
@@ -679,7 +682,7 @@ h3 { margin: 0; font-size: 0.96rem; font-weight: 600; }
     height: 112px;
   }
   h1 { white-space: normal; }
-  .about-body { grid-template-columns: 1fr; }
+  .about-body { flex-direction: column; }
   .projects { grid-template-columns: 1fr; }
   .wins { gap: 1rem; }
   .quick-nav {

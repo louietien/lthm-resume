@@ -65,9 +65,16 @@
     <section class="section" id="about">
       <h2 class="section-label">{{ site.about.title }}</h2>
       <div class="about-body">
-        {% for paragraph in site.about.paragraphs %}
-        <p>{{ paragraph }}</p>
-        {% endfor %}
+        <div class="about-col">
+          {% for paragraph in site.about.paragraphs[:2] %}
+          <p>{{ paragraph }}</p>
+          {% endfor %}
+        </div>
+        <div class="about-col">
+          {% for paragraph in site.about.paragraphs[2:] %}
+          <p>{{ paragraph }}</p>
+          {% endfor %}
+        </div>
       </div>
     </section>
 
